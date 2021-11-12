@@ -1,18 +1,18 @@
 export const COLORS = [
     // red-500
-    '#EF4444',
+    0xEF4444,
     // yellow-500
-    '#F59E0B',
+    0xF59E0B,
     // greeen-500
-    '#10B981',
+    0x10B981,
     // blue-500,
-    '#3B82F6',
-    // indigo
-    '#6366F1',
+    0x3B82F6,
+    // indigo-500
+    0x6366F1,
     // purple-500
-    '#8B5CF6',
+    0x8B5CF6,
     // pink-500
-    '#EC4899',
+    0xEC4899,
 ];
 
 export const PEG_POSITION = [-60, 0, 60];

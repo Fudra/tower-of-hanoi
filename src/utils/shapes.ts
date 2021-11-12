@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import {Color} from "three";
 
 interface Vector3D {
   [index:string]: number | null;
@@ -34,6 +35,8 @@ export const shape = (
   
     object.scale.x = 0.5;
     object.scale.y = 0.5;
+
+    //object.position.y = height / 2
   
     const proxy = new Proxy(
       {
@@ -70,17 +73,20 @@ export const shape = (
       proxy: proxy,
     };
   };
+
 export const ringShape = (outer:number, color:number) => shape(5, outer, 6, 40, color);
 
 
 const planeGeometry = new THREE.PlaneGeometry(1000, 1000);
 const planeMaterial = new THREE.ShadowMaterial();
+const mat  = new THREE.MeshPhongMaterial()
+
 planeMaterial.opacity = 0.2;
 
-export const floorPlane = new THREE.Mesh(planeGeometry, planeMaterial);
-floorPlane.position.y = -6;
+export const floorPlane = new THREE.Mesh(planeGeometry, mat);
+floorPlane.rotateX(-Math.PI/2);
 floorPlane.receiveShadow = true;
 
 
 // gray-500
-export const pegShape = () => shape(0, 3, 60, 20, '#6B7280');
+export const pegShape = () => shape(0, 4, 100, 10, 0x6B7280);
