@@ -7,10 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^6.8.0",
     "three": "^0.134.0",
     "vue": "^3.2.16"
   },
   "devDependencies": {
+    "@types/three": "^0.134.0",
     "@vitejs/plugin-vue": "^1.9.3",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.3.11",
