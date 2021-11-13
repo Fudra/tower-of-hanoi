@@ -1,16 +1,17 @@
-const hanoi = (n: number, displayMove: (from: number, to:number))  => {
-    hanoi_rec(n, 0, 2);
-    const hanoiRec = (n:number, from: number, to: number) => {
+const hanoi = (n: number, displayMove: (from: number, to: number) => void) => {
+    const hanoiRec = (n: number, from: number, to: number) => {
         if (n == 1) {
-            display_move(from, to);
+            displayMove(from, to);
             return;
         }
         const aux = 3 - from - to;
-        hanoi_rec(n - 1, from, aux);
-        display_move(from, to);
-        hanoi_rec(n - 1, aux, to);
+        hanoiRec(n - 1, from, aux);
+        displayMove(from, to);
+        hanoiRec(n - 1, aux, to);
     }
-})
+
+    hanoiRec(n, 0, 2);
+}
 
 export default hanoi;
 
