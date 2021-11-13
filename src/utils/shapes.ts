@@ -33,11 +33,6 @@ export const shape = (
     });
     const object = new THREE.Mesh(geometry, material);
   
-    object.scale.x = 0.5;
-    object.scale.y = 0.5;
-
-    //object.position.y = height / 2
-  
     const proxy = new Proxy(
       {
         x: null,
@@ -89,4 +84,4 @@ floorPlane.receiveShadow = true;
 
 
 // gray-500
-export const pegShape = () => shape(0, 4, 100, 10, 0x6B7280);
+export const pegShape = () => shape(0, 2, 60, 10, 0x6B7280);
