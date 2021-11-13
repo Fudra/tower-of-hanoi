@@ -1,5 +1,7 @@
 # Tower of Hanoi 🗼
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/23935f15-827f-443e-9223-6e164f36ad62/deploy-status)](https://app.netlify.com/sites/tower-of-hanoi-animation/deploys)
+
 <p align="center">
 <img src="./public/example.png" alt="Tower of Hanoi" width="400"/>
 </p>
