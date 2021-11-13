@@ -3,17 +3,45 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref, render} from "vue";
+import {onMounted, ref} from "vue";
 import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {useRafFn} from "@vueuse/core";
+import {TimelineLite} from 'gsap/all'
+import hanoiGame from "./hanoi";
+
+interface GameMove {
+  from: Number;
+  to: Number;
+}
+
+interface GameState {
+  peg: [
+      Number [],
+      Number [],
+      Number [],
+  ]
+}
 
 // assets
 import {ambientLight, spotLight} from "./utils/lights";
 import {floorPlane, ringShape, pegShape} from "./utils/shapes";
-import {PEG_POSITION} from "./utils/constants";
+import {COLORS, PEG_POSITION, RING_SIZE, RING_COUNT, RING_HEIGHT} from "./utils/constants";
 
 const hanoi = ref<HTMLElement | null>(null);
+
+const gameMoves = ref<GameMove[]>([]);
+const gameState = ref<GameState>({peg: [[],[],[]]});
+const rings = ref<any[]>([]);
+
+
+const calculateGameMoves = (from: number, to: number) => {
+  gameMoves.value.push({
+    from,
+    to,
+  });
+};
+
 
 onMounted(async () => {
   const scene = new THREE.Scene();
@@ -24,11 +52,8 @@ onMounted(async () => {
       1000
   );
 
-  //camera.position.set( 400, 200, 0 );
   camera.position.z = 150;
   camera.position.y = -250;
-
-  //camera.rotation.x = 1.25;
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -65,8 +90,8 @@ onMounted(async () => {
    *  World
    */
 
-  const axesHelper = new THREE.AxesHelper( 50 );
-  scene.add( axesHelper );
+  const axesHelper = new THREE.AxesHelper(50);
+  scene.add(axesHelper);
 
   scene.add(floorPlane);
 
@@ -74,9 +99,22 @@ onMounted(async () => {
   for (const number of PEG_POSITION) {
     const peg = pegShape();
     peg.proxy.x = number;
-    peg.geometry.rotateX(-Math.PI/2);
     scene.add(peg.object)
   }
+
+  // Rings
+  for (let index = 0; index < RING_COUNT; index++) {
+    const ring = ringShape(RING_SIZE[index], COLORS[index]);
+    scene.add(ring.object);
+    ring.proxy.y = RING_HEIGHT * index;
+    ring.proxy.x = PEG_POSITION[0];
+    gameState.value.peg[0].push(index);
+    rings.value.push(ring);
+  }
+
+  hanoiGame(RING_COUNT, calculateGameMoves);
+
+  console.log(gameMoves);
 
   useRafFn(() => {
     controls.update();

@@ -1,3 +1,8 @@
+// Temp
+export const RING_COUNT = 7;
+
+
+// All colors are borrowed form the tailwindCSS Documentation
 export const COLORS = [
     // red-500
     0xEF4444,
@@ -15,6 +20,9 @@ export const COLORS = [
     0xEC4899,
 ];
 
-export const PEG_POSITION = [-60, 0, 60];
-export const RING_SIZE = [50, 45, 40, 35, 30, 25, 20, 15];
+export const PEG_POSITION = [-80, 0, 80];
+export const RING_SIZE = [ 40, 35, 30, 25, 20, 15, 10];
 export const RING_HEIGHT = 6;
+
+export const ANIM_DURATION = 4;
+export const MAX_HEIGHT = 90;
