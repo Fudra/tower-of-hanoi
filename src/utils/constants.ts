@@ -1,14 +1,13 @@
+import {Position} from "../interfaces";
 // Temp
 export const RING_COUNT = 7;
-
-
 // All colors are borrowed form the tailwindCSS Documentation
 export const COLORS = [
     // red-500
     0xEF4444,
     // yellow-500
     0xF59E0B,
-    // greeen-500
+    // green-500
     0x10B981,
     // blue-500,
     0x3B82F6,
@@ -20,8 +19,9 @@ export const COLORS = [
     0xEC4899,
 ];
 
-export const PEG_POSITION = [-80, 0, 80];
-export const RING_SIZE = [ 40, 35, 30, 25, 20, 15, 10];
+
+export const PEG_POSITION: any = [-80, 0, 80];
+export const RING_SIZE:any = [40, 35, 30, 25, 20, 15, 10];
 export const RING_HEIGHT = 6;
 
 export const ANIM_DURATION = 4;

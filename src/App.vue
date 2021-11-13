@@ -10,28 +10,17 @@ import {useRafFn} from "@vueuse/core";
 import {TimelineLite, Power3} from 'gsap/all'
 import hanoiGame from "./hanoi";
 
-interface GameMove {
-  from: Number;
-  to: Number;
-}
-
-interface GameState {
-  peg: [
-      Number [],
-      Number [],
-      Number [],
-  ]
-}
 
 // assets
 import {ambientLight, spotLight} from "./utils/lights";
 import {floorPlane, ringShape, pegShape} from "./utils/shapes";
 import {COLORS, PEG_POSITION, RING_SIZE, RING_COUNT, RING_HEIGHT, ANIM_DURATION, MAX_HEIGHT} from "./utils/constants";
+import {GameMove, GameState} from "./interfaces";
 
 const hanoi = ref<HTMLElement | null>(null);
 
 const gameMoves = ref<GameMove[]>([]);
-const gameState = ref<GameState>({peg: [[],[],[]]});
+const gameState = ref<any>({peg: [[], [], []]});
 const rings = ref<any[]>([]);
 
 
@@ -116,8 +105,8 @@ onMounted(async () => {
 
   const tl = new TimelineLite()
   const animateRings = (gameMoveIndex: number) => {
-    const from = gameMoves.value[gameMoveIndex].from;
-    const to = gameMoves.value[gameMoveIndex].to;
+    const from = gameMoves.value[gameMoveIndex].from.toString();
+    const to = gameMoves.value[gameMoveIndex].to.toString();
     const ringIndex = gameState.value.peg[from].pop();
     gameState.value.peg[to].push(ringIndex);
 

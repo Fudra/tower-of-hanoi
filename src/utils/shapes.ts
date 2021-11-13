@@ -1,8 +1,5 @@
 import * as THREE from 'three'
-
-interface Vector3D {
-    [index: string]: number | null;
-}
+import { Vector3D } from "../interfaces";
 
 export const shape = (
     inner = 13,
