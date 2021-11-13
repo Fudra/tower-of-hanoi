@@ -7,7 +7,7 @@ import {onMounted, ref} from "vue";
 import * as THREE from "three";
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {useRafFn} from "@vueuse/core";
-import {TimelineLite} from 'gsap/all'
+import {TimelineLite, Power3} from 'gsap/all'
 import hanoiGame from "./hanoi";
 
 interface GameMove {
@@ -26,7 +26,7 @@ interface GameState {
 // assets
 import {ambientLight, spotLight} from "./utils/lights";
 import {floorPlane, ringShape, pegShape} from "./utils/shapes";
-import {COLORS, PEG_POSITION, RING_SIZE, RING_COUNT, RING_HEIGHT} from "./utils/constants";
+import {COLORS, PEG_POSITION, RING_SIZE, RING_COUNT, RING_HEIGHT, ANIM_DURATION, MAX_HEIGHT} from "./utils/constants";
 
 const hanoi = ref<HTMLElement | null>(null);
 
@@ -114,7 +114,47 @@ onMounted(async () => {
 
   hanoiGame(RING_COUNT, calculateGameMoves);
 
-  console.log(gameMoves);
+  const tl = new TimelineLite()
+  const animateRings = (gameMoveIndex: number) => {
+    const from = gameMoves.value[gameMoveIndex].from;
+    const to = gameMoves.value[gameMoveIndex].to;
+    const ringIndex = gameState.value.peg[from].pop();
+    gameState.value.peg[to].push(ringIndex);
+
+    const currentRing = rings.value[ringIndex];
+
+    tl.to(currentRing.proxy, {
+      duration: ANIM_DURATION,
+      ease: Power3.easeOut,
+      keyframes: [
+        {
+          y: RING_HEIGHT * (gameState.value.peg[from].length - 1),
+          x: PEG_POSITION[from],
+        },
+        {
+          y: MAX_HEIGHT,
+          x: PEG_POSITION[from],
+        },
+        {
+          y: MAX_HEIGHT,
+          x: (PEG_POSITION[from] + PEG_POSITION[to]) / 2, // center
+        },
+        {
+          y: MAX_HEIGHT,
+          x: PEG_POSITION[to],
+        },
+        {
+          y: RING_HEIGHT * (gameState.value.peg[to].length - 1),
+          x: PEG_POSITION[to],
+        },
+      ],
+    });
+  }
+
+  // generate Timeline
+  for (let index = 0; index < gameMoves.value.length; index++) {
+    animateRings(index);
+  }
 
   useRafFn(() => {
     controls.update();
