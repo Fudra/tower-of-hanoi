@@ -1,5 +1,7 @@
 <template>
   <div ref="hanoi"></div>
+
+  <info-modal />
 </template>
 
 <script setup lang="ts">
@@ -9,6 +11,10 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {useRafFn} from "@vueuse/core";
 import {TimelineLite, Power3} from 'gsap/all'
 import hanoiGame from "./hanoi";
+
+
+// @ts-ignore-next-line
+import InfoModal from './components/InfoModal.vue'
 
 
 // assets
