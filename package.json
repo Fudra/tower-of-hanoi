@@ -7,19 +7,19 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@vueuse/core": "^6.8.0",
-    "gsap": "^3.8.0",
-    "three": "^0.134.0",
+    "@vueuse/core": "^7.5.1",
+    "gsap": "^3.9.1",
+    "three": "^0.136.0",
     "vue": "^3.2.16"
   },
   "devDependencies": {
-    "@types/three": "^0.134.0",
-    "@vitejs/plugin-vue": "^1.9.3",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.3.11",
-    "tailwindcss": "^2.2.19",
-    "typescript": "^4.4.3",
-    "vite": "^2.6.4",
-    "vue-tsc": "^0.3.0"
+    "@types/three": "^0.135.0",
+    "@vitejs/plugin-vue": "^2.0.1",
+    "autoprefixer": "^10.4.1",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.8",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.10",
+    "vue-tsc": "^0.30.1"
   }
 }
