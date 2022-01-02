@@ -1,5 +1,5 @@
 <template>
-  <backdrop :show="show" />
+  <backdrop :show="props.show" />
   <transition
     name="modal-transition"
     enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -10,7 +10,7 @@
     leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
   >
     <div
-      v-if="show"
+      v-if="props.show"
       class="fixed z-10 inset-0 overflow-y-auto"
       aria-labelledby="modal-title"
       role="dialog"
@@ -63,11 +63,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineProps } from "vue";
 // @ts-ignore-next-line
 import backdrop from "./Backdrop.vue";
 
-const show = ref(false);
+const props = defineProps({ show: Boolean })
 
 // todo add vuex
 </script>

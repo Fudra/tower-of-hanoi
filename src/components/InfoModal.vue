@@ -1,5 +1,5 @@
 <template>
-  <modal>
+  <modal :show="show">
     <div
       class="mx-auto flex items-center justify-center h-20 w-20 rounded-full"
     >
@@ -12,7 +12,7 @@
       </h3>
       <div class="mt-2">
         <p class="text-sm text-gray-500">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
+          [todo] Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur
           amet labore.
         </p>
       </div>
@@ -20,6 +20,7 @@
     <div class="mt-5 sm:mt-6">
       <button
         type="button"
+        @click.prevent="$emit('close')"
         class="
           inline-flex
           justify-center
@@ -50,4 +51,12 @@
 <script setup lang="ts">
 //@ts-ignore-next-line
 import Modal from "./Modal.vue";
+
+import { defineProps, defineEmits } from 'vue'
+
+const props = defineProps({ show: Boolean })
+
+const emits = defineEmits(['close'])
+
+
 </script>

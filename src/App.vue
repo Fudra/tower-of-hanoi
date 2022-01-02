@@ -1,7 +1,8 @@
 <template>
   <div ref="hanoi"></div>
 
-  <info-modal />
+  <info-modal :show="showInfoModal" @close="() => showInfoModal = false"/>
+  <controls @openInfoModal="() => showInfoModal = true" />
 </template>
 
 <script setup lang="ts">
@@ -15,6 +16,11 @@ import hanoiGame from "./hanoi";
 
 // @ts-ignore-next-line
 import InfoModal from './components/InfoModal.vue'
+import Controls from './components/Controls.vue'
+
+// modals 
+// todo move to vuex store
+const showInfoModal = ref(true);
 
 
 // assets
