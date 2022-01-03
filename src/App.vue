@@ -1,44 +1,48 @@
 <template>
   <div ref="hanoi"></div>
 
-  <info-modal :show="state.getters['base/isModalAboutOpen']" @close="() => state.dispatch('base/closeAboutModal')"/>
-  <controls @openInfoModal="() => state.dispatch('base/openAboutModal')" />
+  <info-modal />
+  <control-modal />
+  <controls />
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import * as THREE from "three";
-import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
-import {useRafFn} from "@vueuse/core";
-import {TimelineLite, Power3} from 'gsap/all'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { useRafFn } from "@vueuse/core";
+import { TimelineLite, Power3 } from "gsap/all";
 import hanoiGame from "./hanoi";
-import {useStore} from "./store";
-
+import { useStore } from "./store";
 
 // @ts-ignore-next-line
-import InfoModal from './components/InfoModal.vue'
-import Controls from './components/Controls.vue'
-
-// modals 
-// todo move to vuex store
+import InfoModal from "./components/Modals/InfoModal.vue";
+// @ts-ignore-next-line
+import ControlModal from "./components/Modals/ControlModal.vue";
+// @ts-ignore-next-line
+import Controls from "./components/Controls/Controls.vue";
 
 const state = useStore();
 
-
-
-
 // assets
-import {ambientLight, spotLight} from "./utils/lights";
-import {floorPlane, ringShape, pegShape} from "./utils/shapes";
-import {COLORS, PEG_POSITION, RING_SIZE, RING_COUNT, RING_HEIGHT, ANIM_DURATION, MAX_HEIGHT} from "./utils/constants";
-import {GameMove, GameState} from "./interfaces";
+import { ambientLight, spotLight } from "./utils/lights";
+import { floorPlane, ringShape, pegShape } from "./utils/shapes";
+import {
+  COLORS,
+  PEG_POSITION,
+  RING_SIZE,
+  RING_COUNT,
+  RING_HEIGHT,
+  ANIM_DURATION,
+  MAX_HEIGHT,
+} from "./utils/constants";
+import { GameMove, GameState } from "./interfaces";
 
 const hanoi = ref<HTMLElement | null>(null);
 
 const gameMoves = ref<GameMove[]>([]);
-const gameState = ref<any>({peg: [[], [], []]});
+const gameState = ref<any>({ peg: [[], [], []] });
 const rings = ref<any[]>([]);
-
 
 const calculateGameMoves = (from: number, to: number) => {
   gameMoves.value.push({
@@ -47,14 +51,13 @@ const calculateGameMoves = (from: number, to: number) => {
   });
 };
 
-
 onMounted(async () => {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
+    45,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
   );
 
   camera.position.z = 150;
@@ -63,7 +66,7 @@ onMounted(async () => {
   const renderer = new THREE.WebGLRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0xFFFFFF, 1)
+  renderer.setClearColor(0xffffff, 1);
   hanoi.value!.appendChild(renderer.domElement);
 
   renderer.shadowMap.enabled = true;
@@ -90,7 +93,6 @@ onMounted(async () => {
   scene.add(ambientLight);
   scene.add(spotLight);
 
-
   /**
    *  World
    */
@@ -104,7 +106,7 @@ onMounted(async () => {
   for (const number of PEG_POSITION) {
     const peg = pegShape();
     peg.proxy.x = number;
-    scene.add(peg.object)
+    scene.add(peg.object);
   }
 
   // Rings
@@ -119,7 +121,7 @@ onMounted(async () => {
 
   hanoiGame(RING_COUNT, calculateGameMoves);
 
-  const tl = new TimelineLite()
+  const tl = new TimelineLite();
   const animateRings = (gameMoveIndex: number) => {
     const from = gameMoves.value[gameMoveIndex].from.toString();
     const to = gameMoves.value[gameMoveIndex].to.toString();
@@ -154,7 +156,7 @@ onMounted(async () => {
         },
       ],
     });
-  }
+  };
 
   // generate Timeline
   for (let index = 0; index < gameMoves.value.length; index++) {

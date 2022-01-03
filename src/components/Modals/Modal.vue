@@ -12,6 +12,7 @@
     <div
       v-if="props.show"
       class="fixed z-10 inset-0 overflow-y-auto"
+      @click="clickOutsideTarget"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -39,6 +40,7 @@
         <!-- Modal panel, show/hide based on modal state. -->
 
         <div
+          ref="modalClickTarget"
           class="
             inline-block
             align-bottom
@@ -63,11 +65,49 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
+import {
+  defineProps,
+  defineEmits,
+  onBeforeUnmount,
+  onBeforeMount,
+  ref,
+} from "vue";
 // @ts-ignore-next-line
 import backdrop from "./Backdrop.vue";
 
-const props = defineProps({ show: Boolean })
+const props = defineProps({ show: Boolean });
 
-// todo add vuex
+const emit = defineEmits(["clickedOutside"]);
+
+const keyEvent = (event: KeyboardEvent) => {
+  const keyName = event.key;
+
+  if (keyName === "Escape") {
+    emit("clickedOutside");
+  }
+};
+
+const modalClickTarget = ref(null);
+
+const clickOutsideTarget = (e: Event) => {
+  if (modalClickTarget.value === null) return;
+
+  // @ts-ignore-next-line
+  if (
+    !(
+      modalClickTarget.value === e.target ||
+      modalClickTarget.value.contains(e.target)
+    )
+  ) {
+    emit("clickedOutside");
+  }
+};
+
+onBeforeMount(() => {
+  document.addEventListener("keydown", keyEvent);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("keydown", keyEvent);
+});
 </script>

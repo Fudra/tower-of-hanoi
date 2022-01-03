@@ -15,7 +15,7 @@
             duration-150
           "
 
-          :class="{ 'text-gray-900 hover:bg-gray-100' : !props.inactive , ' text-gray-400 pointer-events-none': props.inactive }"
+          :class="{ 'text-gray-900 hover:bg-gray-100' : !props.inactive , ' text-gray-400 pointer-events-none cursor-not-allowed': props.inactive }"
         >
 
             <slot :styleClasses="styleClasses">
