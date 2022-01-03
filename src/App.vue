@@ -1,8 +1,8 @@
 <template>
   <div ref="hanoi"></div>
 
-  <info-modal :show="showInfoModal" @close="() => showInfoModal = false"/>
-  <controls @openInfoModal="() => showInfoModal = true" />
+  <info-modal :show="state.getters['base/isModalAboutOpen']" @close="() => state.dispatch('base/closeAboutModal')"/>
+  <controls @openInfoModal="() => state.dispatch('base/openAboutModal')" />
 </template>
 
 <script setup lang="ts">
@@ -12,6 +12,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {useRafFn} from "@vueuse/core";
 import {TimelineLite, Power3} from 'gsap/all'
 import hanoiGame from "./hanoi";
+import {useStore} from "./store";
 
 
 // @ts-ignore-next-line
@@ -20,7 +21,10 @@ import Controls from './components/Controls.vue'
 
 // modals 
 // todo move to vuex store
-const showInfoModal = ref(true);
+
+const state = useStore();
+
+
 
 
 // assets
