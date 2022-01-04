@@ -20,8 +20,10 @@ export const COLORS = [
 ];
 
 
-export const PEG_POSITION: Array<Number> = [-80, 0, 80];
-export const RING_SIZE: Array<Number> = [45, 40, 35, 30, 25, 20, 15, 10];
+const PEG_SPACER = 90;
+
+export const PEG_POSITION: Array<number> = [-PEG_SPACER, 0, PEG_SPACER];
+export const RING_SIZE: Array<number> = [45, 40, 35, 30, 25, 20, 15, 10];
 export const RING_HEIGHT = 6;
 
 export const ANIM_DURATION = 4;

@@ -38,15 +38,19 @@ export const shape = (
         {
             set(target: Vector3D, key: string, value: number) {
                 target[key] = value;
+
                 if (target.x !== null) {
                     object.position.x = target.x;
                 }
+
                 if (target.y !== null) {
                     object.position.y = target.y;
                 }
+
                 if (target.z !== null) {
                     object.position.z = target.z;
                 }
+                
                 return true;
             },
             get(target: Vector3D, key: string) {
@@ -59,9 +63,9 @@ export const shape = (
     object.receiveShadow = true;
 
     return {
-        geometry: geometry,
-        object: object,
-        proxy: proxy,
+        geometry,
+        object,
+        proxy,
     };
 };
 

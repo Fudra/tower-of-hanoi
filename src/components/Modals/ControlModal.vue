@@ -30,8 +30,8 @@
 <script setup lang="ts">
 //@ts-ignore-next-line
 import Modal from "./Modal.vue";
-import PrimaryButton from "../PrimaryButton.vue";
-import RingButton from "../RingButton.vue";
+import PrimaryButton from "../Misc/PrimaryButton.vue";
+import RingButton from "../Misc/RingButton.vue";
 import { useStore } from "../../store";
 import { noop } from "@vueuse/core";
 

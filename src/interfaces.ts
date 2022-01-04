@@ -8,8 +8,8 @@ export interface Vector3D {
 
 
 export interface GameMove {
-    from: Number;
-    to: Number;
+    from: number;
+    to: number;
 }
 
 export interface GameState {

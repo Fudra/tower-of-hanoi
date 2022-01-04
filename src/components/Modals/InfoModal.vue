@@ -29,7 +29,7 @@
 <script setup lang="ts">
 //@ts-ignore-next-line
 import Modal from "./Modal.vue";
-import PrimaryButton from "../PrimaryButton.vue";
+import PrimaryButton from "../Misc/PrimaryButton.vue";
 
 import { useStore } from "../../store";
 
