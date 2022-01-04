@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { useRafFn } from "@vueuse/core";
+import { noop, useRafFn } from "@vueuse/core";
 import { TimelineLite, Power3 } from "gsap/all";
 import hanoiGame from "./hanoi";
 import { useStore } from "./store";
@@ -31,7 +31,6 @@ import {
   COLORS,
   PEG_POSITION,
   RING_SIZE,
-  RING_COUNT,
   RING_HEIGHT,
   ANIM_DURATION,
   MAX_HEIGHT,
@@ -50,6 +49,11 @@ const calculateGameMoves = (from: number, to: number) => {
     to,
   });
 };
+
+const ringCount = computed({
+  get: () => state.getters["game/getRings"],
+  set: () => noop(),
+});
 
 onMounted(async () => {
   const scene = new THREE.Scene();
@@ -98,7 +102,7 @@ onMounted(async () => {
    */
 
   const axesHelper = new THREE.AxesHelper(50);
-  scene.add(axesHelper);
+  // scene.add(axesHelper);
 
   scene.add(floorPlane);
 
@@ -108,18 +112,6 @@ onMounted(async () => {
     peg.proxy.x = number;
     scene.add(peg.object);
   }
-
-  // Rings
-  for (let index = 0; index < RING_COUNT; index++) {
-    const ring = ringShape(RING_SIZE[index], COLORS[index]);
-    scene.add(ring.object);
-    ring.proxy.y = RING_HEIGHT * index;
-    ring.proxy.x = PEG_POSITION[0];
-    gameState.value.peg[0].push(index);
-    rings.value.push(ring);
-  }
-
-  hanoiGame(RING_COUNT, calculateGameMoves);
 
   const tl = new TimelineLite();
   const animateRings = (gameMoveIndex: number) => {
@@ -132,10 +124,10 @@ onMounted(async () => {
 
     tl.to(currentRing.proxy, {
       duration: ANIM_DURATION,
-      ease: Power3.easeOut,
+      ease: Power3.easeInOut,
       keyframes: [
         {
-          y: RING_HEIGHT * (gameState.value.peg[from].length - 1),
+          y: RING_HEIGHT * gameState.value.peg[from].length,
           x: PEG_POSITION[from],
         },
         {
@@ -158,10 +150,45 @@ onMounted(async () => {
     });
   };
 
-  // generate Timeline
-  for (let index = 0; index < gameMoves.value.length; index++) {
-    animateRings(index);
-  }
+
+  watch(
+    ringCount,
+    () => {
+      // remove reset values
+      tl.clear();
+
+      console.log(scene);
+      rings.value.forEach((ring) => {
+        ring.object.removeFromParent();
+      });
+
+      rings.value = [];
+
+      gameState.value.peg[0] = [];
+      gameState.value.peg[1] = [];
+      gameState.value.peg[2] = [];
+
+      gameMoves.value = [];
+
+      // Rings
+      for (let index = 0; index < ringCount.value; index++) {
+        const ring = ringShape(RING_SIZE[index], COLORS[index]);
+        scene.add(ring.object);
+        ring.proxy.y = RING_HEIGHT * index;
+        ring.proxy.x = PEG_POSITION[0];
+        gameState.value.peg[0].push(index);
+        rings.value.push(ring);
+      }
+
+      hanoiGame(ringCount.value, calculateGameMoves);
+
+      // generate Timeline
+      for (let index = 0; index < gameMoves.value.length; index++) {
+        animateRings(index);
+      }
+    },
+    { immediate: true }
+  );
 
   useRafFn(() => {
     controls.update();

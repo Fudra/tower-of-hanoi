@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, ref, onBeforeMount, onBeforeUpdate } from "vue";
+import { defineProps, defineEmits, computed, ref } from "vue";
 
 const props = defineProps({
   label: Number,

@@ -1,6 +1,5 @@
-import {Position} from "../interfaces";
-// Temp
-export const RING_COUNT = 7;
+import { Position } from "../interfaces";
+
 // All colors are borrowed form the tailwindCSS Documentation
 export const COLORS = [
     // red-500
@@ -17,11 +16,12 @@ export const COLORS = [
     0x8B5CF6,
     // pink-500
     0xEC4899,
+     // default
 ];
 
 
-export const PEG_POSITION: any = [-80, 0, 80];
-export const RING_SIZE:any = [40, 35, 30, 25, 20, 15, 10];
+export const PEG_POSITION: Array<Number> = [-80, 0, 80];
+export const RING_SIZE: Array<Number> = [45, 40, 35, 30, 25, 20, 15, 10];
 export const RING_HEIGHT = 6;
 
 export const ANIM_DURATION = 4;

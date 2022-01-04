@@ -7,5 +7,7 @@ export interface BaseState {
 }
 
 export interface GameState {
-    moves: []
+    moves: Array<any>,
+    ringCount: Array<Number>,
+    rings: Number,
 }

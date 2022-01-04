@@ -16,14 +16,13 @@
             :id="`ring-count-${index}-label`"
             groupname="ring-count"
             :key="index"
-            v-model="selectedRings"
+            v-model="rings"
           />
         </div>
       </fieldset>
     </div>
-    <div class="mt-5 sm:mt-6 space-x-2 flex">
-      <primary-button @click="save()">Save</primary-button>
-      <primary-button @click="close()">close</primary-button>
+    <div class="mt-5 sm:mt-6">
+      <primary-button @click="save()">okay</primary-button>
     </div>
   </modal>
 </template>
@@ -34,25 +33,34 @@ import Modal from "./Modal.vue";
 import PrimaryButton from "../PrimaryButton.vue";
 import RingButton from "../RingButton.vue";
 import { useStore } from "../../store";
+import { noop } from "@vueuse/core";
 
-import { defineEmits, ref } from "vue";
+
+
+import { defineEmits, ref, computed } from "vue";
 
 const state = useStore();
 
 const emit = defineEmits(["close", "save"]);
 
 const save = () => {
-  console.log("saved!");
-  emit("save");
-  close();
-};
-
-const selectedRings = ref(3);
-
-const close = () => {
   emit("close");
   state.dispatch("base/closeControlModal");
 };
 
-const ringCount = [3, 4, 5, 6, 7, 8];
+const rings = computed({ 
+  get: () => state.getters['game/getRings'],
+  set: (rings) => state.dispatch('game/setRings', rings)
+})
+
+const ringCount = computed({
+  get: () => state.getters['game/getRingCount'],
+  set: () => noop()
+})
+
+const close = () => {
+
+};
+
+
 </script>
