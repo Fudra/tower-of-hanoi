@@ -26,7 +26,6 @@ import {
 
 import { GameMove, GameState } from "./../interfaces";
 
-const gameMoves = ref<GameMove[]>([]);
 const gameState = ref<any>({ peg: [[], [], []] });
 const rings = ref<any[]>([]);
 
@@ -34,12 +33,10 @@ const hanoi = ref<HTMLElement | null>(null);
 
 const state = useStore();
 
-const calculateGameMoves = (from: number, to: number) => {
-  gameMoves.value.push({
-    from,
-    to,
-  });
-};
+const gameMoves = computed<Array<GameMove>>({
+  get: () => state.getters["game/getGameMoves"],
+  set: (move: Array<GameMove>) => state.dispatch("game/setGameMoves", move)
+});
 
 const ringCount = computed({
   get: () => state.getters["game/getRings"],
@@ -154,7 +151,7 @@ const clearValues = () => {
   gameState.value.peg[1] = [];
   gameState.value.peg[2] = [];
 
-  gameMoves.value = [];
+  state.dispatch("game/resetGame")
 };
 
 const addRings = () => {
@@ -176,7 +173,7 @@ watch(
 
     // Rings
     addRings();
-    hanoiGame(ringCount.value, calculateGameMoves);
+    gameMoves.value = hanoiGame(ringCount.value);
 
     // generate Timeline
     for (let index = 0; index < gameMoves.value.length; index++) {

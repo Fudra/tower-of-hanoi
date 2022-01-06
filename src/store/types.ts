@@ -1,3 +1,5 @@
+import { GameMove } from "../interfaces";
+
 export interface RootState {}
 
 
@@ -7,7 +9,7 @@ export interface BaseState {
 }
 
 export interface GameState {
-    moves: Array<any>,
+    moves: Array<GameMove>,
     ringCount: Array<Number>,
     rings: Number,
 }

@@ -1,10 +1,6 @@
 <template>
-  <!--
-        Active: ""
-        Checked: "bg-indigo-600 border-transparent text-white hover:bg-indigo-700", Not Checked: "bg-white border-gray-200 text-gray-900 hover:bg-gray-50"
-      -->
-  <label
-  
+
+  <label  
     class="
       border
       rounded-md
@@ -21,7 +17,6 @@
       focus:outline-none
       transition-shadow
       duration-300
-
     "
     :class="{
       'bg-indigo-600 border-transparent text-white hover:bg-indigo-700':
